@@ -49,6 +49,9 @@ jobs:
             sudo apt install telnet
             telnet 0.0.0.0 40130
       - run:
+          name: rust wait
+          command: sleep 60
+      - run:
           name: Run all tests
           command: cargo test
 
