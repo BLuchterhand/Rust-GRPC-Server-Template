@@ -66,7 +66,7 @@ async fn test_signup() -> Result<(), Box<dyn std::error::Error>> {
         db_client
     };
 
-    let mut client = AuthorizationClient::connect("http://0.0.0.0:40130").await?;
+    let mut client = AuthorizationClient::connect("http://localhost:40130").await?;
 
     let request = Request::<SignupRequest>::new(SignupRequest {
         email: "test2@gmail.com".to_string(),
