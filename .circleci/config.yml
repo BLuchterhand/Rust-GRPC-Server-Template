@@ -48,6 +48,7 @@ jobs:
           command: |
             sudo apt install telnet
             telnet 0.0.0.0 40130
+            ^]
       - run:
           name: Run all tests 
           command: cargo test -- --test-threads=1
