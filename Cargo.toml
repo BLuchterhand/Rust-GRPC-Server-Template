@@ -1,0 +1,23 @@
+[package]
+name = "project-restful"
+version = "0.0.1"
+authors = ["ben <benlucht8@gmail.com>"]
+edition = "2021"
+
+[[bin]]
+name = "server"
+path = "src/server.rs"
+
+[dependencies]
+tonic = "0.8"
+prost = "0.11"
+tokio = { version = "1.0", features = ["macros", "rt-multi-thread"] }
+postgres = "0.19"
+tokio-postgres = "0.7.8"
+chrono = "0.4.24"
+pbkdf2 = "0.12.1"
+bcrypt = "0.14.0"
+argon2 = "0.5.0"
+
+[build-dependencies]
+tonic-build = "0.8"

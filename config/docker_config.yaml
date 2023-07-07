@@ -1,0 +1,6 @@
+server:
+  port: 50053
+
+logging:
+  path:
+  level: Info
