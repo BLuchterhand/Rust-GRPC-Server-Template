@@ -14,7 +14,7 @@ mod tests {
 #[tokio::test]
 async fn test_login() -> Result<(), Box<dyn std::error::Error>> {
     let db_client = {
-        let (client, connection) = tokio_postgres::connect("postgresql://postgres:postgres@0.0.0.0:5432/postgres", NoTls).await?;
+        let (client, connection) = tokio_postgres::connect("postgresql://postgres:postgres@localhost:5432/postgres", NoTls).await?;
         let db_client = DBClient::new(client);
         tokio::spawn(async move {
             if let Err(e) = connection.await {
@@ -56,7 +56,7 @@ async fn test_login() -> Result<(), Box<dyn std::error::Error>> {
 #[tokio::test]
 async fn test_signup() -> Result<(), Box<dyn std::error::Error>> {
     let db_client = {
-        let (client, connection) = tokio_postgres::connect("postgresql://postgres:postgres@0.0.0.0:5432/postgres", NoTls).await?;
+        let (client, connection) = tokio_postgres::connect("postgresql://postgres:postgres@localhost:5432/postgres", NoTls).await?;
         let db_client = DBClient::new(client);
         tokio::spawn(async move {
             if let Err(e) = connection.await {
