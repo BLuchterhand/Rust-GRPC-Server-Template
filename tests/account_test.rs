@@ -111,10 +111,10 @@ async fn test_signup() -> Result<(), Box<dyn std::error::Error>> {
         "That email is already linked to an account.".to_string()
     );
 
-    let _result = db_client.client.execute(
-        "delete from public.accounts where email = $1",
-            &[&"test2@gmail.com"],
-    ).await?;
+    // let _result = db_client.client.execute(
+    //     "delete from public.accounts where email = $1",
+    //         &[&"test2@gmail.com"],
+    // ).await?;
 
     Ok(())
     }
