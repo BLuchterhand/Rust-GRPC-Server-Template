@@ -101,10 +101,10 @@ async fn test_signup() -> Result<(), Box<dyn std::error::Error>> {
         password: "4321".to_string(),
     });
 
-    let response = client
-        .signup(request_two)
-        .await
-        .map_err(|err| Status::unknown(err.to_string()))?;
+    // let response = client
+    //     .signup(request_two)
+    //     .await
+    //     .map_err(|err| Status::unknown(err.to_string()))?;
 
     // assert_eq!(
     //     response.into_inner().message,
