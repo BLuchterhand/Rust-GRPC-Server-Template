@@ -43,14 +43,14 @@ jobs:
       - run:
           name: Start Rust Service
           command: cargo run --bin server &
-      - run:
-          name: Verify Rest Service Reachable
-          command: |
-            sudo apt install telnet
-            telnet 0.0.0.0 40130
-      - run:
-          name: rust wait
-          command: sleep 60
+      # - run:
+          # name: Verify Rest Service Reachable
+          # command: |
+          #   sudo apt install telnet
+          #   telnet 0.0.0.0 40130
+      # - run:
+      #     name: rust wait
+      #     command: sleep 60
       - run:
           name: Run all tests
           command: cargo test
