@@ -26,13 +26,13 @@ async fn test_login() -> Result<(), Box<dyn std::error::Error>> {
 
     let _result = db_client.client.execute(
             "INSERT INTO public.accounts (id, email, password) VALUES($1, $2, $3)",
-            &[&10001i32, &"test2@gmail.com", &"$argon2id$v=19$m=19456,t=2,p=1$OZvRCPdpJUHXTly354KWHQ$LWpd6Bt7bqpAGKea0yhwU01UF5cdYUnkYY4xflkGRe4"],
+            &[&10001i32, &"test1@gmail.com", &"$argon2id$v=19$m=19456,t=2,p=1$OZvRCPdpJUHXTly354KWHQ$LWpd6Bt7bqpAGKea0yhwU01UF5cdYUnkYY4xflkGRe4"],
         ).await?;
 
     let mut client = AuthorizationClient::connect("http://0.0.0.0:40130").await?;
 
     let request = Request::<LoginRequest>::new(LoginRequest {
-        email: "test2@gmail.com".to_string(),
+        email: "test1@gmail.com".to_string(),
         password: "Hello".to_string(),
     });
 
@@ -41,20 +41,20 @@ async fn test_login() -> Result<(), Box<dyn std::error::Error>> {
         .await
         .map_err(|err| Status::unknown(err.to_string()))?;
 
-    assert_eq!(
-        response.into_inner().status,
-        true
-    );
-
     let _result = db_client.client.execute(
         "delete from public.accounts where id = $1",
             &[&10001i32],
     ).await?;
+
+    assert_eq!(
+        response.into_inner().status,
+        true
+    );
     Ok(())
     }
 
-    #[tokio::test]
-async fn test_singup() -> Result<(), Box<dyn std::error::Error>> {
+#[tokio::test]
+async fn test_signup() -> Result<(), Box<dyn std::error::Error>> {
     let mut db_client = {
         let (client, connection) = tokio_postgres::connect("postgresql://postgres:postgres@0.0.0.0:5432/postgres", NoTls).await?;
         let db_client = DBClient::new(client);
@@ -97,6 +97,11 @@ async fn test_singup() -> Result<(), Box<dyn std::error::Error>> {
         response.into_inner().message,
         "That email is already linked to an account.".to_string()
     );
+
+    let _result = db_client.client.execute(
+        "delete from public.accounts where email = $1",
+            &[&"test2@gmail.com"],
+    ).await?;
 
     Ok(())
     }
