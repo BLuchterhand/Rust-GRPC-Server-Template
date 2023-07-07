@@ -33,7 +33,7 @@ jobs:
           command: cargo build
       - run:
           name: docker-compose build && docker-compose up
-          command: docker-compose build && docker-compose up
+          command: docker compose up -d
       - run:
           name: docker wait
           command: sleep 10
