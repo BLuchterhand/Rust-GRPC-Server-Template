@@ -55,7 +55,7 @@ mod tests {
 
 #[tokio::test]
 async fn test_signup() -> Result<(), Box<dyn std::error::Error>> {
-    let db_client = {
+    let mut db_client = {
         let (client, connection) = tokio_postgres::connect("postgresql://postgres:postgres@localhost:5432/postgres", NoTls).await?;
         let db_client = DBClient::new(client);
         tokio::spawn(async move {
@@ -82,6 +82,17 @@ async fn test_signup() -> Result<(), Box<dyn std::error::Error>> {
         response.into_inner().message,
         "Your account has been created!".to_string()
     );
+
+    db_client = {
+        let (client, connection) = tokio_postgres::connect("postgresql://postgres:postgres@localhost:5432/postgres", NoTls).await?;
+        let db_client = DBClient::new(client);
+        tokio::spawn(async move {
+            if let Err(e) = connection.await {
+                eprintln!("connection error: {}", e);
+            }
+        });
+        db_client
+    };
 
     client = AuthorizationClient::connect("http://0.0.0.0:40130").await?;
 
