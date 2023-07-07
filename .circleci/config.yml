@@ -1,0 +1,59 @@
+version: 2.1
+jobs:
+  build-and-test:
+    machine:
+      image: ubuntu-2004:2023.02.1
+    environment:
+      # Fail the build if there are warnings
+      RUSTFLAGS: '-D warnings'
+    steps:
+      - checkout
+      - protobuf/install
+      - run:
+          name: update
+          command: |
+            sudo apt update && sudo apt install libc6
+      - run:
+          name: chmod
+          command: |
+            chmod +x rustup.sh
+      - run:
+          name: Install Rust
+          command: |
+            ./rustup.sh -y
+            source "$HOME/.cargo/env"
+      - run:
+          name: Version information
+          command: rustc --version; cargo --version; rustup --version
+      - run:
+          name: Calculate dependencies
+          command: cargo generate-lockfile
+      - run:
+          name: Build all targets
+          command: cargo build
+      - run:
+          name: docker-compose build && docker-compose up
+          command: docker-compose build && docker-compose up -d
+      - run:
+          name: docker wait
+          command: sleep 10
+      - run:
+          name: verify pg running
+          command: docker exec -u postgres -it project-db-1 pg_ctl -D /var/lib/postgresql/data status
+      - run:
+          name: Start Rust Service
+          command: cargo run --bin server &
+      - run:
+          name: Run all tests
+          command: cargo test
+
+orbs:
+  protobuf: izumin5210/protobuf@0.1.0
+workflows:
+  version: 2
+  build-test:
+    jobs:
+      - build-and-test:
+          filters:
+            tags:
+              only: /.*/
