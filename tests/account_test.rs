@@ -17,9 +17,7 @@ mod tests {
             let (client, connection) = tokio_postgres::connect("postgresql://postgres:postgres@localhost:5432/postgres", NoTls).await?;
             let db_client = DBClient::new(client);
             tokio::spawn(async move {
-                if let Err(e) = connection.await {
-                    eprintln!("connection error: {}", e);
-                }
+                connection.await.expect("Failed to finish connection");
             });
             db_client
         };
@@ -59,9 +57,7 @@ mod tests {
             let (client, connection) = tokio_postgres::connect("postgresql://postgres:postgres@localhost:5432/postgres", NoTls).await?;
             let db_client = DBClient::new(client);
             tokio::spawn(async move {
-                if let Err(e) = connection.await {
-                    eprintln!("connection error: {}", e);
-                }
+                connection.await.expect("Failed to finish connection");
             });
             db_client
         };
@@ -97,9 +93,7 @@ mod tests {
             let (client, connection) = tokio_postgres::connect("postgresql://postgres:postgres@localhost:5432/postgres", NoTls).await?;
             let db_client = DBClient::new(client);
             tokio::spawn(async move {
-                if let Err(e) = connection.await {
-                    eprintln!("connection error: {}", e);
-                }
+                connection.await.expect("Failed to finish connection");
             });
             db_client
         };
