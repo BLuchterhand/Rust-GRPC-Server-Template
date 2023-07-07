@@ -1,4 +1,4 @@
-# Restful-Backend
+# Rust GRPC Server
 #### Run postgres server:
 docker compose up
 
